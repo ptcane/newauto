@@ -1,21 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PyScript Altair</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
 
+    <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <!-- Import vega-embed -->
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <py-config>
+        packages = [
+          "altair",
+          "pandas",
+          "vega_datasets"
+        ]
+    </py-config>
 </head>
 
 <body>
-    <div class="container">
-
+    <!--
+    <py-script src="./alt.py">   
+    </py-script>
+    -->
+    <main class="container">
+<h1>Altair interactive</h1>
     <form>
+        <fieldset>
 
         <label for="fruit">Fruit</label>
 <select id="fruit" required>
@@ -24,12 +40,33 @@
   <option>Apple</option>
   <option>Orange</option>
 </select>
+</fieldset>
       
         <!-- Button -->
         <button type="submit">Submit</button>
       
       </form>
-    </div>
+    
+
+<div id="altair"></div>
+
+<div id="vis"></div>
+<div id="vis2"></div>
+
+<script type="text/javascript">
+  var spec = "https://raw.githubusercontent.com/vega/vega/master/docs/examples/bar-chart.vg.json";
+  vegaEmbed('#vis', spec).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
+</script>
+
+<script type="text/javascript">
+    var spec2 = "./vegaex.json";
+    vegaEmbed('#vis2', spec2).then(function(result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+  </script>
+</main>
 </body>
 
 </html>
