@@ -2,44 +2,64 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NewAuto</title>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewAuto</title>
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <link rel="stylesheet" href="style.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
 </head>
 
 <body>
 
-    <main class="container">
+  <main class="container">
 
-        {{ stuff }}
-        <h1>UK vehicles by category, fuel type & ownership</h1>
-        <div id="altair"></div>
-
+    {{ stuff }}
+    <h1>UK vehicles by category, fuel type & ownership</h1>
+    <div class="layout">
+      <div class="column">
         <div id="vis1"></div>
         <div id="vis2"></div>
+      </div>
+
+      <div id="vis3">
+      </div>
 
 
-<h3>Alternative fuel cars by region</h3>
-
-{% include "includes/region_alt_fuels_table.html" %}
+    </div>
 
 
-        <script type="text/javascript">
-            let spec1 = "./charts/VEH0105_veh_cat_fuel.json"
-            vegaEmbed('#vis1', spec1)
-            var spec2 = "./charts/VEH0105_car_keep_fuel.json"
-            vegaEmbed('#vis2', spec2)
-        </script>
+
+    <h3>Alternative fuel cars by region</h3>
+    <div class="layout">
+      <div>
+
+        {% include "includes/region_alt_fuels_table.html" %}
+      </div>
+      <div>{% include "includes/VEH0105_region_map.html" %}</div>
 
 
-    </main>
+
+    </div>
+
+
+
+    <script type="text/javascript">
+      let spec1 = "./charts/VEH0105_veh_cat_fuel.json"
+      vegaEmbed('#vis1', spec1)
+      let spec2 = "./charts/VEH0105_car_keep_fuel.json"
+      vegaEmbed('#vis2', spec2)
+      let spec3 = "./charts/VEH0145_electric_type_time.json"
+      vegaEmbed('#vis3', spec3)
+
+    </script>
+
+
+  </main>
 </body>
 
 </html>
