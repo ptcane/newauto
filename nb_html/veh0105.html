@@ -1,0 +1,644 @@
+<pre><code class="language-python">import pandas as pd
+import altair as alt
+</code></pre>
+<pre><code class="language-python">df = pd.read_csv(&quot;../data/VEH0105/regions.csv&quot;)
+</code></pre>
+<pre><code class="language-python">df = df[(df['BodyType']!=&quot;Total&quot;) &amp; (df['Keepership']!=&quot;Total&quot;) &amp; (df['Fuel']!=&quot;Total&quot;)]
+</code></pre>
+<pre><code class="language-python">df[[col for col in df.columns[6:]]] = df[[col for col in df.columns[6:]]].apply(pd.to_numeric, errors=&quot;coerce&quot;)
+</code></pre>
+<pre><code class="language-python">bt_fuel = df.groupby([&quot;BodyType&quot;, &quot;Fuel&quot;])[[&quot;2022 Q3&quot;]].sum().reset_index()
+</code></pre>
+<pre><code class="language-python">bt_fuel['2022 Q3'] = bt_fuel['2022 Q3'] / 1000
+</code></pre>
+<pre><code class="language-python">order = ['Diesel', 'Petrol', 'Other fuels']
+categories = ['Motorcycles', 'Cars', 'Light goods vehicles', 'Heavy goods vehicles', 'Buses and coaches', 'Other vehicles']
+#colors = ['#f03e3e', '#1098ad', '#37b24d']
+</code></pre>
+<pre><code class="language-python">chart = alt.Chart(data=bt_fuel, height=300, width=600, title=&quot;UK vehicles by category and fuel type&quot;).mark_bar().encode(
+
+alt.Y('BodyType:N', sort=categories, title=None),
+alt.X('2022 Q3:Q', title=&quot;Vehicles (millions)&quot;),
+alt.Color('Fuel:N', sort=order), #scale=alt.Scale(domain=order, range=colors)),
+alt.Order(&quot;color_Fuel_sort_index:Q&quot;),
+#alt.Tooltip(field='2022 Q3', format=&quot;,.1f&quot;)
+alt.Tooltip(['Fuel', '2022 Q3'])#, format=&quot;,.1f&quot;)
+).configure_title(anchor=&quot;middle&quot;, fontSize=16, dy=-16)
+</code></pre>
+<pre><code class="language-python">chart
+</code></pre>
+<div id="altair-viz-a34bc3e131844f659b79da137280721d"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-a34bc3e131844f659b79da137280721d") {
+      outputDiv = document.getElementById("altair-viz-a34bc3e131844f659b79da137280721d");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}, "title": {"anchor": "middle", "dy": -16, "fontSize": 16}}, "data": {"name": "data-9934c26e55b2f15d41c1df0a8f668d2a"}, "mark": "bar", "encoding": {"color": {"field": "Fuel", "sort": ["Diesel", "Petrol", "Other fuels"], "type": "nominal"}, "order": {"field": "color_Fuel_sort_index", "type": "quantitative"}, "tooltip": [{"field": "Fuel", "type": "nominal"}, {"field": "2022 Q3", "type": "quantitative"}], "x": {"field": "2022 Q3", "title": "Vehicles (millions)", "type": "quantitative"}, "y": {"field": "BodyType", "sort": ["Motorcycles", "Cars", "Light goods vehicles", "Heavy goods vehicles"], "title": null, "type": "nominal"}}, "height": 300, "title": "UK vehicles by category and fuel type", "width": 600, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-9934c26e55b2f15d41c1df0a8f668d2a": [{"BodyType": "Buses and coaches", "Fuel": "Diesel", "2022 Q3": 0.13787100000000002}, {"BodyType": "Buses and coaches", "Fuel": "Other fuels", "2022 Q3": 0.0023799999999999997}, {"BodyType": "Buses and coaches", "Fuel": "Petrol", "2022 Q3": 0.0035470000000000002}, {"BodyType": "Cars", "Fuel": "Diesel", "2022 Q3": 11.588404}, {"BodyType": "Cars", "Fuel": "Other fuels", "2022 Q3": 2.12914}, {"BodyType": "Cars", "Fuel": "Petrol", "2022 Q3": 18.801336}, {"BodyType": "Heavy goods vehicles", "Fuel": "Diesel", "2022 Q3": 0.5275460000000001}, {"BodyType": "Heavy goods vehicles", "Fuel": "Other fuels", "2022 Q3": 0.0028160000000000004}, {"BodyType": "Heavy goods vehicles", "Fuel": "Petrol", "2022 Q3": 0.001815}, {"BodyType": "Light goods vehicles", "Fuel": "Diesel", "2022 Q3": 4.369141}, {"BodyType": "Light goods vehicles", "Fuel": "Other fuels", "2022 Q3": 0.048101}, {"BodyType": "Light goods vehicles", "Fuel": "Petrol", "2022 Q3": 0.141966}, {"BodyType": "Motorcycles", "Fuel": "Diesel", "2022 Q3": 0.000753}, {"BodyType": "Motorcycles", "Fuel": "Other fuels", "2022 Q3": 0.012833}, {"BodyType": "Motorcycles", "Fuel": "Petrol", "2022 Q3": 1.4263039999999998}, {"BodyType": "Other vehicles", "Fuel": "Diesel", "2022 Q3": 0.610241}, {"BodyType": "Other vehicles", "Fuel": "Other fuels", "2022 Q3": 0.132796}, {"BodyType": "Other vehicles", "Fuel": "Petrol", "2022 Q3": 0.082465}]}}, {"mode": "vega-lite"});
+</script>
+
+<pre><code class="language-python">chart.save('../charts/VEH0105_veh_cat_fuel.json')
+</code></pre>
+<pre><code class="language-python">df.groupby(['BodyType', 'Keepership'])[['2022 Q3']].sum().reset_index()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>BodyType</th>
+      <th>Keepership</th>
+      <th>2022 Q3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Buses and coaches</td>
+      <td>Company</td>
+      <td>114.767</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Buses and coaches</td>
+      <td>Private</td>
+      <td>29.031</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Cars</td>
+      <td>Company</td>
+      <td>2779.488</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Cars</td>
+      <td>Private</td>
+      <td>29739.392</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Heavy goods vehicles</td>
+      <td>Company</td>
+      <td>427.741</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Heavy goods vehicles</td>
+      <td>Private</td>
+      <td>104.436</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Light goods vehicles</td>
+      <td>Company</td>
+      <td>2187.075</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Light goods vehicles</td>
+      <td>Private</td>
+      <td>2372.133</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Motorcycles</td>
+      <td>Company</td>
+      <td>39.965</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Motorcycles</td>
+      <td>Private</td>
+      <td>1399.925</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Other vehicles</td>
+      <td>Company</td>
+      <td>435.405</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Other vehicles</td>
+      <td>Private</td>
+      <td>390.097</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">cars = df[df['BodyType'] == 'Cars']
+</code></pre>
+<pre><code class="language-python">keep_fuel = cars.groupby(['Keepership', 'Fuel'])[['2022 Q3']].sum().reset_index()
+keep_fuel['2022 Q3'] = keep_fuel['2022 Q3'] / 1000
+</code></pre>
+<pre><code class="language-python">keep_fuel
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Keepership</th>
+      <th>Fuel</th>
+      <th>2022 Q3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Company</td>
+      <td>Diesel</td>
+      <td>0.755738</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Company</td>
+      <td>Other fuels</td>
+      <td>0.805266</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Company</td>
+      <td>Petrol</td>
+      <td>1.218484</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Private</td>
+      <td>Diesel</td>
+      <td>10.832666</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Private</td>
+      <td>Other fuels</td>
+      <td>1.323874</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Private</td>
+      <td>Petrol</td>
+      <td>17.582852</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">chart2 = alt.Chart(data=keep_fuel, height=150, width=600, title=&quot;UK cars by keepership and fuel type&quot;).mark_bar().encode(
+
+alt.Y('Fuel:N', title=None, sort=['Diesel', 'Petrol', 'Other fuels']),
+alt.X('2022 Q3:Q', title=&quot;Cars (millions)&quot;),
+alt.Color('Fuel:N', sort=['Diesel', 'Petrol', 'Other fuels']), #scale=alt.Scale(domain=order, range=colors)),
+alt.Row('Keepership:N', title=None),
+alt.Tooltip(['Fuel', '2022 Q3'])
+#alt.TitleConfig(align=&quot;left&quot;)
+).configure_title(anchor=&quot;middle&quot;, fontSize=16, dy=-16)#.configure(font=&quot;Roboto&quot;)
+
+</code></pre>
+<pre><code class="language-python">chart2.save('../charts/VEH0105_car_keep_fuel.json')
+</code></pre>
+<pre><code class="language-python">chart2
+</code></pre>
+<div id="altair-viz-c9f9a95f964c4962ba796e157dbb5151"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-c9f9a95f964c4962ba796e157dbb5151") {
+      outputDiv = document.getElementById("altair-viz-c9f9a95f964c4962ba796e157dbb5151");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}, "title": {"anchor": "middle", "dy": -16, "fontSize": 16}}, "data": {"name": "data-7d604d83794ab3072151f727f6557710"}, "mark": "bar", "encoding": {"color": {"field": "Fuel", "sort": ["Diesel", "Petrol", "Other fuels"], "type": "nominal"}, "row": {"field": "Keepership", "title": null, "type": "nominal"}, "tooltip": [{"field": "Fuel", "type": "nominal"}, {"field": "2022 Q3", "type": "quantitative"}], "x": {"field": "2022 Q3", "title": "Cars (millions)", "type": "quantitative"}, "y": {"field": "Fuel", "sort": ["Diesel", "Petrol", "Other fuels"], "title": null, "type": "nominal"}}, "height": 150, "title": "UK cars by keepership and fuel type", "width": 600, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-7d604d83794ab3072151f727f6557710": [{"Keepership": "Company", "Fuel": "Diesel", "2022 Q3": 0.755738}, {"Keepership": "Company", "Fuel": "Other fuels", "2022 Q3": 0.8052659999999999}, {"Keepership": "Company", "Fuel": "Petrol", "2022 Q3": 1.218484}, {"Keepership": "Private", "Fuel": "Diesel", "2022 Q3": 10.832666}, {"Keepership": "Private", "Fuel": "Other fuels", "2022 Q3": 1.323874}, {"Keepership": "Private", "Fuel": "Petrol", "2022 Q3": 17.582852}]}}, {"mode": "vega-lite"});
+</script>
+
+<pre><code class="language-python">alt_cars = cars[cars['Fuel']=='Other fuels']
+</code></pre>
+<pre><code class="language-python">geo_alt = alt_cars.groupby(['ONS Geography'])[['2022 Q3']].sum().reset_index()
+</code></pre>
+<pre><code class="language-python">geo_alt
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ONS Geography</th>
+      <th>2022 Q3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>East</td>
+      <td>206.910</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>East Midlands</td>
+      <td>124.629</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>London</td>
+      <td>287.317</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>North East</td>
+      <td>47.558</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>North West</td>
+      <td>249.304</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Northern Ireland</td>
+      <td>38.684</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Scotland</td>
+      <td>139.169</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>South East</td>
+      <td>425.771</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>South West</td>
+      <td>232.775</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Wales</td>
+      <td>59.232</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>West Midlands</td>
+      <td>143.063</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Yorkshire and The Humber</td>
+      <td>174.728</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">geo_all = cars.groupby(['ONS Geography'])[['2022 Q3']].sum().reset_index()
+</code></pre>
+<pre><code class="language-python">geo_all
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ONS Geography</th>
+      <th>2022 Q3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>East</td>
+      <td>3406.949</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>East Midlands</td>
+      <td>2495.668</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>London</td>
+      <td>2610.116</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>North East</td>
+      <td>1181.064</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>North West</td>
+      <td>3563.107</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Northern Ireland</td>
+      <td>1002.817</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Scotland</td>
+      <td>2538.411</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>South East</td>
+      <td>5321.818</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>South West</td>
+      <td>3298.428</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Wales</td>
+      <td>1601.654</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>West Midlands</td>
+      <td>2892.511</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Yorkshire and The Humber</td>
+      <td>2606.337</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">geo = geo_all.copy()
+</code></pre>
+<pre><code class="language-python">geo['Other fuels'] = geo_alt['2022 Q3']
+</code></pre>
+<pre><code class="language-python">geo['Other fuels %'] = (geo['Other fuels'] / geo['2022 Q3'])*100
+</code></pre>
+<pre><code class="language-python">geo.rename(columns={'ONS Geography': 'Region', '2022 Q3': 'All cars'}, inplace=True)
+</code></pre>
+<pre><code class="language-python">geo = geo.sort_values(by=&quot;Other fuels %&quot;)
+</code></pre>
+<pre><code class="language-python">geo[['All cars', 'Other fuels']] = (geo[['All cars', 'Other fuels']] * 1000).astype(int)
+</code></pre>
+<pre><code class="language-python">geo
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Region</th>
+      <th>All cars</th>
+      <th>Other fuels</th>
+      <th>Other fuels %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>9</th>
+      <td>Wales</td>
+      <td>1601654</td>
+      <td>59232</td>
+      <td>3.698177</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Northern Ireland</td>
+      <td>1002817</td>
+      <td>38684</td>
+      <td>3.857533</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>North East</td>
+      <td>1181063</td>
+      <td>47558</td>
+      <td>4.026708</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>West Midlands</td>
+      <td>2892511</td>
+      <td>143063</td>
+      <td>4.945979</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>East Midlands</td>
+      <td>2495667</td>
+      <td>124629</td>
+      <td>4.993813</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Scotland</td>
+      <td>2538411</td>
+      <td>139168</td>
+      <td>5.482524</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>East</td>
+      <td>3406949</td>
+      <td>206910</td>
+      <td>6.073176</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Yorkshire and The Humber</td>
+      <td>2606337</td>
+      <td>174728</td>
+      <td>6.703968</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>North West</td>
+      <td>3563107</td>
+      <td>249304</td>
+      <td>6.996815</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>South West</td>
+      <td>3298428</td>
+      <td>232775</td>
+      <td>7.057150</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>South East</td>
+      <td>5321817</td>
+      <td>425770</td>
+      <td>8.000480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>London</td>
+      <td>2610116</td>
+      <td>287317</td>
+      <td>11.007825</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">geo.to_html(&quot;region_alt_fuels_table.html&quot;, index=False, border=0, table_id=&quot;region-alt-fuels&quot;, float_format='{:10.1f}'.format)
+</code></pre>
+<pre><code class="language-python">
+</code></pre>

@@ -1,0 +1,71 @@
+<pre><code class="language-python">import pandas as pd
+import altair as alt
+import re
+import os
+</code></pre>
+<pre><code class="language-python">gss_codes = {   
+            'districts': ['E06', 'E07', 'E08', 'E09', 'W06', 'S12', 'N09'],
+            'counties': ['E13', 'E11', 'E10', 'E06', 'W06', 'S12', 'N09'],
+            'regions': ['E12', 'W92', 'S92', 'N92'],
+            'countries': ['E92', 'W92', 'S92', 'N92']
+            }
+</code></pre>
+<pre><code class="language-python">parent_counties = {'E07': 'E10',
+                   'E08': 'E11',
+                   'E09': 'E13'}
+
+parent_regions = {'E06': 'E12',
+                  'E07': 'E12',
+                  'E08': 'E12',
+                  'E09': 'E12',
+                  'W06': 'W92',
+                  'N09': 'N92',
+                  'S12': 'S92'}
+
+parent_countries = {
+                  'E06': 'E92',
+                  'E07': 'E92',
+                  'E08': 'E92',
+                  'E09': 'E92',
+                  'W06': 'W92',
+                  'N09': 'N92',
+                  'S12': 'S92'}
+</code></pre>
+<pre><code class="language-python">def read_sheet(file, sheet_name, skiprows):
+
+    sheet_df = pd.read_excel(file, 
+                             sheet_name=sheet_name,
+                             skiprows=skiprows)
+
+    sheet_df.rename(columns=lambda x: re.sub('\s\[note\s\d+\]','',x), inplace=True)
+    sheet_df['ONS Code'] = sheet_df['ONS Code'].apply(lambda x: re.sub('\s\[note\s\d+\]','',x))
+    sheet_df['ONS Code'] = sheet_df['ONS Code'].str.replace(' (Met County)', '', regex=False)
+    sheet_df['area_group'] = sheet_df['ONS Code'].apply(lambda x: x[:3])
+
+    sheet_df.drop(['Units'], axis=1, inplace=True)
+    sheet_df.replace(&quot;[x]&quot;, pd.NA, inplace=True)
+
+    return sheet_df
+</code></pre>
+<pre><code class="language-python">def save_subset(sheet_df, subset, codes, topic):
+
+    df = sheet_df[sheet_df['area_group'].isin(codes)].copy()
+    df.drop('area_group', axis=1, inplace=True)
+
+    if not os.path.exists(f&quot;../data/{topic}&quot;):
+        os.makedirs(f&quot;../data/{topic}&quot;) 
+
+    df.to_csv(f'../data/{topic}/{subset}.csv', index=False)
+
+    return
+</code></pre>
+<pre><code class="language-python">df = read_sheet(&quot;../data/veh0105.xlsx&quot;, &quot;VEH0105&quot;, 4)
+
+</code></pre>
+<pre><code class="language-python">for key, value in gss_codes.items():    
+    save_subset(df, key, value, &quot;VEH0105&quot;)
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>

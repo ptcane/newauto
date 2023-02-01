@@ -63,6 +63,36 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "beautifulsoup4"
+version = "4.11.2"
+description = "Screen-scraping library"
+category = "main"
+optional = false
+python-versions = ">=3.6.0"
+
+[package.dependencies]
+soupsieve = ">1.2"
+
+[package.extras]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
+
+[[package]]
+name = "bleach"
+version = "6.0.0"
+description = "An easy safelist-based HTML-sanitizing tool."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+six = ">=1.9.0"
+webencodings = "*"
+
+[package.extras]
+css = ["tinycss2 (>=1.1.0,<1.2)"]
+
+[[package]]
 name = "cffi"
 version = "1.15.1"
 description = "Foreign Function Interface for Python calling C code."
@@ -145,6 +175,17 @@ python-versions = "*"
 
 [package.extras]
 tests = ["asttokens", "littleutils", "pytest", "rich"]
+
+[[package]]
+name = "fastjsonschema"
+version = "2.16.2"
+description = "Fastest Python implementation of JSON schema"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+devel = ["colorama", "json-spec", "jsonschema", "pylint", "pytest", "pytest-benchmark", "pytest-cache", "validictory"]
 
 [[package]]
 name = "importlib-metadata"
@@ -327,6 +368,28 @@ docs = ["myst-parser", "sphinx-autodoc-typehints", "sphinxcontrib-github-alt", "
 test = ["ipykernel", "pre-commit", "pytest", "pytest-cov", "pytest-timeout"]
 
 [[package]]
+name = "jupyterlab-pygments"
+version = "0.2.2"
+description = "Pygments theme using JupyterLab CSS variables"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
+name = "markdown"
+version = "3.4.1"
+description = "Python implementation of Markdown."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+importlib-metadata = {version = ">=4.4", markers = "python_version < \"3.10\""}
+
+[package.extras]
+testing = ["coverage", "pyyaml"]
+
+[[package]]
 name = "markupsafe"
 version = "2.1.2"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -344,6 +407,86 @@ python-versions = ">=3.5"
 
 [package.dependencies]
 traitlets = "*"
+
+[[package]]
+name = "mistune"
+version = "2.0.4"
+description = "A sane Markdown parser with useful plugins and renderers"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "nbclient"
+version = "0.7.2"
+description = "A client library for executing notebooks. Formerly nbconvert's ExecutePreprocessor."
+category = "main"
+optional = false
+python-versions = ">=3.7.0"
+
+[package.dependencies]
+jupyter-client = ">=6.1.12"
+jupyter-core = ">=4.12,<5.0.0 || >=5.1.0"
+nbformat = ">=5.1"
+traitlets = ">=5.3"
+
+[package.extras]
+dev = ["pre-commit"]
+docs = ["autodoc-traits", "mock", "moto", "myst-parser", "nbclient[test]", "sphinx (>=1.7)", "sphinx-book-theme"]
+test = ["ipykernel", "ipython", "ipywidgets", "nbconvert (>=7.0.0)", "pytest (>=7.0)", "pytest-asyncio", "pytest-cov (>=4.0)", "testpath", "xmltodict"]
+
+[[package]]
+name = "nbconvert"
+version = "7.2.9"
+description = "Converting Jupyter Notebooks"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+beautifulsoup4 = "*"
+bleach = "*"
+defusedxml = "*"
+importlib-metadata = {version = ">=3.6", markers = "python_version < \"3.10\""}
+jinja2 = ">=3.0"
+jupyter-core = ">=4.7"
+jupyterlab-pygments = "*"
+markupsafe = ">=2.0"
+mistune = ">=2.0.3,<3"
+nbclient = ">=0.5.0"
+nbformat = ">=5.1"
+packaging = "*"
+pandocfilters = ">=1.4.1"
+pygments = ">=2.4.1"
+tinycss2 = "*"
+traitlets = ">=5.0"
+
+[package.extras]
+all = ["nbconvert[docs,qtpdf,serve,test,webpdf]"]
+docs = ["ipykernel", "ipython", "myst-parser", "nbsphinx (>=0.2.12)", "pydata-sphinx-theme", "sphinx (==5.0.2)", "sphinxcontrib-spelling"]
+qtpdf = ["nbconvert[qtpng]"]
+qtpng = ["pyqtwebengine (>=5.15)"]
+serve = ["tornado (>=6.1)"]
+test = ["ipykernel", "ipywidgets (>=7)", "pre-commit", "pytest", "pytest-dependency"]
+webpdf = ["pyppeteer (>=1,<1.1)"]
+
+[[package]]
+name = "nbformat"
+version = "5.7.3"
+description = "The Jupyter Notebook format"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+fastjsonschema = "*"
+jsonschema = ">=2.6"
+jupyter-core = "*"
+traitlets = ">=5.1"
+
+[package.extras]
+docs = ["myst-parser", "pydata-sphinx-theme", "sphinx", "sphinxcontrib-github-alt", "sphinxcontrib-spelling"]
+test = ["pep440", "pre-commit", "pytest", "testpath"]
 
 [[package]]
 name = "nest-asyncio"
@@ -410,6 +553,14 @@ pytz = ">=2020.1"
 
 [package.extras]
 test = ["hypothesis (>=5.5.3)", "pytest (>=6.0)", "pytest-xdist (>=1.31)"]
+
+[[package]]
+name = "pandocfilters"
+version = "1.5.0"
+description = "Utilities for writing pandoc filters in python"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "parso"
@@ -577,6 +728,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "soupsieve"
+version = "2.3.2.post1"
+description = "A modern CSS selector implementation for Beautiful Soup."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "stack-data"
 version = "0.6.2"
 description = "Extract data from python stack frames and tracebacks for informative displays"
@@ -591,6 +750,21 @@ pure-eval = "*"
 
 [package.extras]
 tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
+
+[[package]]
+name = "tinycss2"
+version = "1.2.1"
+description = "A tiny CSS parser"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+webencodings = ">=0.4"
+
+[package.extras]
+doc = ["sphinx", "sphinx_rtd_theme"]
+test = ["flake8", "isort", "pytest"]
 
 [[package]]
 name = "toolz"
@@ -629,6 +803,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "webencodings"
+version = "0.5.1"
+description = "Character encoding aliases for legacy web content"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "zipp"
 version = "3.12.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
@@ -643,7 +825,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "75db709c4a3b9191d44127cb2229bdc46270b3ae25e35704aaa841a41aab3916"
+content-hash = "2d9c9ce28e832b888f5c528828fabb7f2d1a129ee2095b56312db6b86b044927"
 
 [metadata.files]
 altair = [
@@ -665,6 +847,14 @@ attrs = [
 backcall = [
     {file = "backcall-0.2.0-py2.py3-none-any.whl", hash = "sha256:fbbce6a29f263178a1f7915c1940bde0ec2b2a967566fe1c65c1dfb7422bd255"},
     {file = "backcall-0.2.0.tar.gz", hash = "sha256:5cbdbf27be5e7cfadb448baf0aa95508f91f2bbc6c6437cd9cd06e2a4c215e1e"},
+]
+beautifulsoup4 = [
+    {file = "beautifulsoup4-4.11.2-py3-none-any.whl", hash = "sha256:0e79446b10b3ecb499c1556f7e228a53e64a2bfcebd455f370d8927cb5b59e39"},
+    {file = "beautifulsoup4-4.11.2.tar.gz", hash = "sha256:bc4bdda6717de5a2987436fb8d72f45dc90dd856bdfd512a1314ce90349a0106"},
+]
+bleach = [
+    {file = "bleach-6.0.0-py3-none-any.whl", hash = "sha256:33c16e3353dbd13028ab4799a0f89a83f113405c766e9c122df8a06f5b85b3f4"},
+    {file = "bleach-6.0.0.tar.gz", hash = "sha256:1a1a85c1595e07d8db14c5f09f09e6433502c51c595970edc090551f0db99414"},
 ]
 cffi = [
     {file = "cffi-1.15.1-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:a66d3508133af6e8548451b25058d5812812ec3798c886bf38ed24a98216fab2"},
@@ -780,6 +970,10 @@ executing = [
     {file = "executing-1.2.0-py2.py3-none-any.whl", hash = "sha256:0314a69e37426e3608aada02473b4161d4caf5a4b244d1d0c48072b8fee7bacc"},
     {file = "executing-1.2.0.tar.gz", hash = "sha256:19da64c18d2d851112f09c287f8d3dbbdf725ab0e569077efb6cdcbd3497c107"},
 ]
+fastjsonschema = [
+    {file = "fastjsonschema-2.16.2-py3-none-any.whl", hash = "sha256:21f918e8d9a1a4ba9c22e09574ba72267a6762d47822db9add95f6454e51cc1c"},
+    {file = "fastjsonschema-2.16.2.tar.gz", hash = "sha256:01e366f25d9047816fe3d288cbfc3e10541daf0af2044763f3d0ade42476da18"},
+]
 importlib-metadata = [
     {file = "importlib_metadata-6.0.0-py3-none-any.whl", hash = "sha256:7efb448ec9a5e313a57655d35aa54cd3e01b7e1fbcf72dce1bf06119420f5bad"},
     {file = "importlib_metadata-6.0.0.tar.gz", hash = "sha256:e354bedeb60efa6affdcc8ae121b73544a7aa74156d047311948f6d711cd378d"},
@@ -815,6 +1009,14 @@ jupyter-client = [
 jupyter-core = [
     {file = "jupyter_core-5.1.5-py3-none-any.whl", hash = "sha256:83064d61bb2a9bc874e8184331c117b3778c2a7e1851f60cb00d273ceb3285ae"},
     {file = "jupyter_core-5.1.5.tar.gz", hash = "sha256:8e54c48cde1e0c8345f64bcf9658b78044ddf02b273726cea9d9f59be4b02130"},
+]
+jupyterlab-pygments = [
+    {file = "jupyterlab_pygments-0.2.2-py2.py3-none-any.whl", hash = "sha256:2405800db07c9f770863bcf8049a529c3dd4d3e28536638bd7c1c01d2748309f"},
+    {file = "jupyterlab_pygments-0.2.2.tar.gz", hash = "sha256:7405d7fde60819d905a9fa8ce89e4cd830e318cdad22a0030f7a901da705585d"},
+]
+markdown = [
+    {file = "Markdown-3.4.1-py3-none-any.whl", hash = "sha256:08fb8465cffd03d10b9dd34a5c3fea908e20391a2a90b88d66362cb05beed186"},
+    {file = "Markdown-3.4.1.tar.gz", hash = "sha256:3b809086bb6efad416156e00a0da66fe47618a5d6918dd688f53f40c8e4cfeff"},
 ]
 markupsafe = [
     {file = "MarkupSafe-2.1.2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:665a36ae6f8f20a4676b53224e33d456a6f5a72657d9c83c2aa00765072f31f7"},
@@ -871,6 +1073,22 @@ markupsafe = [
 matplotlib-inline = [
     {file = "matplotlib-inline-0.1.6.tar.gz", hash = "sha256:f887e5f10ba98e8d2b150ddcf4702c1e5f8b3a20005eb0f74bfdbd360ee6f304"},
     {file = "matplotlib_inline-0.1.6-py3-none-any.whl", hash = "sha256:f1f41aab5328aa5aaea9b16d083b128102f8712542f819fe7e6a420ff581b311"},
+]
+mistune = [
+    {file = "mistune-2.0.4-py2.py3-none-any.whl", hash = "sha256:182cc5ee6f8ed1b807de6b7bb50155df7b66495412836b9a74c8fbdfc75fe36d"},
+    {file = "mistune-2.0.4.tar.gz", hash = "sha256:9ee0a66053e2267aba772c71e06891fa8f1af6d4b01d5e84e267b4570d4d9808"},
+]
+nbclient = [
+    {file = "nbclient-0.7.2-py3-none-any.whl", hash = "sha256:d97ac6257de2794f5397609df754fcbca1a603e94e924eb9b99787c031ae2e7c"},
+    {file = "nbclient-0.7.2.tar.gz", hash = "sha256:884a3f4a8c4fc24bb9302f263e0af47d97f0d01fe11ba714171b320c8ac09547"},
+]
+nbconvert = [
+    {file = "nbconvert-7.2.9-py3-none-any.whl", hash = "sha256:495638c5e06005f4a5ce828d8a81d28e34f95c20f4384d5d7a22254b443836e7"},
+    {file = "nbconvert-7.2.9.tar.gz", hash = "sha256:a42c3ac137c64f70cbe4d763111bf358641ea53b37a01a5c202ed86374af5234"},
+]
+nbformat = [
+    {file = "nbformat-5.7.3-py3-none-any.whl", hash = "sha256:22a98a6516ca216002b0a34591af5bcb8072ca6c63910baffc901cfa07fefbf0"},
+    {file = "nbformat-5.7.3.tar.gz", hash = "sha256:4b021fca24d3a747bf4e626694033d792d594705829e5e35b14ee3369f9f6477"},
 ]
 nest-asyncio = [
     {file = "nest_asyncio-1.5.6-py3-none-any.whl", hash = "sha256:b9a953fb40dceaa587d109609098db21900182b16440652454a146cffb06e8b8"},
@@ -945,6 +1163,10 @@ pandas = [
     {file = "pandas-1.5.3-cp39-cp39-win32.whl", hash = "sha256:7cec0bee9f294e5de5bbfc14d0573f65526071029d036b753ee6507d2a21480a"},
     {file = "pandas-1.5.3-cp39-cp39-win_amd64.whl", hash = "sha256:dfd681c5dc216037e0b0a2c821f5ed99ba9f03ebcf119c7dac0e9a7b960b9ec9"},
     {file = "pandas-1.5.3.tar.gz", hash = "sha256:74a3fd7e5a7ec052f183273dc7b0acd3a863edf7520f5d3a1765c04ffdb3b0b1"},
+]
+pandocfilters = [
+    {file = "pandocfilters-1.5.0-py2.py3-none-any.whl", hash = "sha256:33aae3f25fd1a026079f5d27bdd52496f0e0803b3469282162bafdcbdf6ef14f"},
+    {file = "pandocfilters-1.5.0.tar.gz", hash = "sha256:0b679503337d233b4339a817bfc8c50064e2eff681314376a47cb582305a7a38"},
 ]
 parso = [
     {file = "parso-0.8.3-py2.py3-none-any.whl", hash = "sha256:c001d4636cd3aecdaf33cbb40aebb59b094be2a74c556778ef5576c175e19e75"},
@@ -1138,9 +1360,17 @@ six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
+soupsieve = [
+    {file = "soupsieve-2.3.2.post1-py3-none-any.whl", hash = "sha256:3b2503d3c7084a42b1ebd08116e5f81aadfaea95863628c80a3b774a11b7c759"},
+    {file = "soupsieve-2.3.2.post1.tar.gz", hash = "sha256:fc53893b3da2c33de295667a0e19f078c14bf86544af307354de5fcf12a3f30d"},
+]
 stack-data = [
     {file = "stack_data-0.6.2-py3-none-any.whl", hash = "sha256:cbb2a53eb64e5785878201a97ed7c7b94883f48b87bfb0bbe8b623c74679e4a8"},
     {file = "stack_data-0.6.2.tar.gz", hash = "sha256:32d2dd0376772d01b6cb9fc996f3c8b57a357089dec328ed4b6553d037eaf815"},
+]
+tinycss2 = [
+    {file = "tinycss2-1.2.1-py3-none-any.whl", hash = "sha256:2b80a96d41e7c3914b8cda8bc7f705a4d9c49275616e886103dd839dfc847847"},
+    {file = "tinycss2-1.2.1.tar.gz", hash = "sha256:8cff3a8f066c2ec677c06dbc7b45619804a6938478d9d73c284b29d14ecb0627"},
 ]
 toolz = [
     {file = "toolz-0.12.0-py3-none-any.whl", hash = "sha256:2059bd4148deb1884bb0eb770a3cde70e7f954cfbbdc2285f1f2de01fd21eb6f"},
@@ -1166,6 +1396,10 @@ traitlets = [
 wcwidth = [
     {file = "wcwidth-0.2.6-py2.py3-none-any.whl", hash = "sha256:795b138f6875577cd91bba52baf9e445cd5118fd32723b460e30a0af30ea230e"},
     {file = "wcwidth-0.2.6.tar.gz", hash = "sha256:a5220780a404dbe3353789870978e472cfe477761f06ee55077256e509b156d0"},
+]
+webencodings = [
+    {file = "webencodings-0.5.1-py2.py3-none-any.whl", hash = "sha256:a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78"},
+    {file = "webencodings-0.5.1.tar.gz", hash = "sha256:b36a1c245f2d304965eb4e0a82848379241dc04b865afcc4aab16748587e1923"},
 ]
 zipp = [
     {file = "zipp-3.12.0-py3-none-any.whl", hash = "sha256:9eb0a4c5feab9b08871db0d672745b53450d7f26992fd1e4653aa43345e97b86"},
