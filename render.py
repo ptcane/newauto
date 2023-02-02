@@ -11,7 +11,7 @@ def render_from_template(directory, template_name, **kwargs):
 
 
 html = render_from_template("templates", "template.html")
-print(html)
+#print(html)
 
 with open("index.html", "w") as file:
     file.write(html)
