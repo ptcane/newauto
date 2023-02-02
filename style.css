@@ -61,8 +61,15 @@ color: #4c78a8;
     display: flex;
     flex-flow: wrap;
   justify-content: space-around;
+  align-items: center;
 }
 
 .column > div {
     display: block;
+}
+
+canvas.marks {
+    width: 100%!important;
+    max-width: 600px!important;
+    height: auto!important;
 }
